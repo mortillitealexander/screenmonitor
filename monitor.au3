@@ -15,7 +15,8 @@ If FileExists($prevScreenshot) Then FileDelete($prevScreenshot)
 If FileExists($currScreenshot) Then FileDelete($currScreenshot)
 
 Func CaptureScreenshot($filename)
-    Local $hWnd = WinGetHandle("[CLASS:Notepad]")
+    ;~ Local $hWnd = WinGetHandle("[CLASS:Notepad]")
+    Local $hWnd = WinGetHandle("[REGEXPTITLE:(?i).*MultiCharts64.*]")
     If $hWnd = 0 Then
         ConsoleWrite("Multicharts is not running." & @CRLF)
         Return False
@@ -67,8 +68,16 @@ Func CompareScreenshots()
 EndFunc
 
 Func RestartProgram()
-    RunWait('taskkill /f /im notepad.exe')
-    Run("notepad.exe")
+    RunWait('taskkill /f /im MultiCharts64.exe')
+    RunWait('taskkill /f /im TradingServer.exe')
+    RunWait('taskkill /f /im tsServer.exe')
+    RunWait('taskkill /f /im StudyServer.exe')
+    RunWait('taskkill /f /im MessageCenter.exe')
+    RunWait('taskkill /f /im MessageCenternet.exe')
+    RunWait('taskkill /f /im ATCenterServer.exe')
+    RunWait('taskkill /f /im BitfinexServerHost.exe')
+
+    Run('"C:\Program Files\TS Support\MultiCharts64\MultiCharts64.exe"')
     $failCounter = 0 ; Reset the fail counter after restarting
 EndFunc
 
