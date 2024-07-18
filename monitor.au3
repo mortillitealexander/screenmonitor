@@ -5,10 +5,10 @@
 
 Global $prevScreenshot = @ScriptDir & "\prevScreenshot.bmp"
 Global $currScreenshot = @ScriptDir & "\currScreenshot.bmp"
-Global $screenshotInterval = 1000 ; 1 minute in milliseconds
+Global $screenshotInterval = 60000 ; 1 minute in milliseconds
 Global $failCounter = 0
-Global $maxFails = 1
-Global $ignoreBottomPixels = 100
+Global $maxFails = 5
+Global $ignoreBottomPixels = 150
 
 ; Delete previous and current screenshots if they exist
 If FileExists($prevScreenshot) Then FileDelete($prevScreenshot)
@@ -76,6 +76,9 @@ Func RestartProgram()
     RunWait('taskkill /f /im MessageCenternet.exe')
     RunWait('taskkill /f /im ATCenterServer.exe')
     RunWait('taskkill /f /im BitfinexServerHost.exe')
+    Sleep(10000)
+    Run('"C:\Program Files\TS Support\MultiCharts64\MultiCharts64.exe"')
+    Sleep(30000)
 
     ; Construct the PowerShell command 
     $psCommand = 'powershell -NoProfile -ExecutionPolicy Bypass -Command "& {.\email.ps1}"'
@@ -83,8 +86,6 @@ Func RestartProgram()
     ; Run the PowerShell command
     $handle = Run(@ComSpec & ' /c ' & $psCommand, "", @SW_HIDE, $STDOUT_CHILD + $STDERR_CHILD)
 
-    Sleep(10000)
-    Run('"C:\Program Files\TS Support\MultiCharts64\MultiCharts64.exe"')
     $failCounter = 0 ; Reset the fail counter after restarting
 EndFunc
 
@@ -107,13 +108,7 @@ While True
         FileMove($currScreenshot, $prevScreenshot, 1)
     EndIf
 
-
-    ;~ debug
-    ;~ SplashTextOn("Title", $failCounter, 200, 50)
-
     ; Wait for the specified interval
     Sleep($screenshotInterval)
 
-    ;~ SplashOff()
-    ;~ Sleep(100)
 WEnd
