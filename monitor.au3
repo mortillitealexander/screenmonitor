@@ -76,6 +76,13 @@ Func RestartProgram()
     RunWait('taskkill /f /im MessageCenternet.exe')
     RunWait('taskkill /f /im ATCenterServer.exe')
     RunWait('taskkill /f /im BitfinexServerHost.exe')
+
+    ; Construct the PowerShell command 
+    $psCommand = 'powershell -NoProfile -ExecutionPolicy Bypass -Command "& {.\email.ps1}"'
+							
+    ; Run the PowerShell command
+    $handle = Run(@ComSpec & ' /c ' & $psCommand, "", @SW_HIDE, $STDOUT_CHILD + $STDERR_CHILD)
+
     Sleep(10000)
     Run('"C:\Program Files\TS Support\MultiCharts64\MultiCharts64.exe"')
     $failCounter = 0 ; Reset the fail counter after restarting
