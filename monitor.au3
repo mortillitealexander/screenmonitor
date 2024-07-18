@@ -5,7 +5,7 @@
 
 Global $prevScreenshot = @ScriptDir & "\prevScreenshot.bmp"
 Global $currScreenshot = @ScriptDir & "\currScreenshot.bmp"
-Global $screenshotInterval = 60000 ; 1 minute in milliseconds
+Global $screenshotInterval = 1000 ; 1 minute in milliseconds
 Global $failCounter = 0
 Global $maxFails = 5
 Global $ignoreBottomPixels = 100
