@@ -7,7 +7,7 @@ Global $prevScreenshot = @ScriptDir & "\prevScreenshot.bmp"
 Global $currScreenshot = @ScriptDir & "\currScreenshot.bmp"
 Global $screenshotInterval = 1000 ; 1 minute in milliseconds
 Global $failCounter = 0
-Global $maxFails = 5
+Global $maxFails = 1
 Global $ignoreBottomPixels = 100
 
 ; Delete previous and current screenshots if they exist
@@ -76,7 +76,7 @@ Func RestartProgram()
     RunWait('taskkill /f /im MessageCenternet.exe')
     RunWait('taskkill /f /im ATCenterServer.exe')
     RunWait('taskkill /f /im BitfinexServerHost.exe')
-
+    Sleep(10000)
     Run('"C:\Program Files\TS Support\MultiCharts64\MultiCharts64.exe"')
     $failCounter = 0 ; Reset the fail counter after restarting
 EndFunc
